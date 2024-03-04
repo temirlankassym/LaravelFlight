@@ -1,0 +1,45 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\FlightsController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+Route::prefix('/companies')->group(function (){
+    Route::get('/',[CompanyController::class,'index']);
+    Route::get('/{company}',[CompanyController::class,'show']);
+    Route::put('/{company}',[CompanyController::class,'update']);
+    Route::post('/',[CompanyController::class,'store']);
+    Route::delete('/{company}',[CompanyController::class,'destroy']);
+});
+
+Route::prefix('/countries')->group(function (){
+    Route::get('/',[CountryController::class,'index']);
+    Route::get('/{country}',[CountryController::class,'show']);
+    Route::put('/{country}',[CountryController::class,'update']);
+    Route::post('/',[CountryController::class,'store']);
+    Route::delete('/{country}',[CountryController::class,'destroy']);
+});
+
+Route::prefix('/locations')->group(function (){
+    Route::get('/',[LocationController::class,'index']);
+    Route::get('/{location}',[LocationController::class,'show']);
+    Route::put('/{location}',[LocationController::class,'update']);
+    Route::post('/',[LocationController::class,'store']);
+    Route::delete('/{location}',[LocationController::class,'destroy']);
+});
+
+Route::get('/flights',[FlightsController::class,'index']);
