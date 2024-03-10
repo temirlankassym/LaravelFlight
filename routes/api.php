@@ -6,6 +6,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FlightsController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,28 +19,33 @@ use App\Http\Controllers\FlightsController;
 |
 */
 
-Route::prefix('/companies')->group(function (){
-    Route::get('/',[CompanyController::class,'index']);
-    Route::get('/{company}',[CompanyController::class,'show']);
-    Route::put('/{company}',[CompanyController::class,'update']);
-    Route::post('/',[CompanyController::class,'store']);
-    Route::delete('/{company}',[CompanyController::class,'destroy']);
-});
+Route::post('/login',[AuthController::class,'login']);
+Route::post('/register',[AuthController::class,'register']);
 
-Route::prefix('/countries')->group(function (){
-    Route::get('/',[CountryController::class,'index']);
-    Route::get('/{country}',[CountryController::class,'show']);
-    Route::put('/{country}',[CountryController::class,'update']);
-    Route::post('/',[CountryController::class,'store']);
-    Route::delete('/{country}',[CountryController::class,'destroy']);
-});
+Route::group(['middleware' => 'jwt.auth'], function (){
+    Route::prefix('/companies')->group(function (){
+        Route::get('/',[CompanyController::class,'index']);
+        Route::get('/{company}',[CompanyController::class,'show']);
+        Route::put('/{company}',[CompanyController::class,'update']);
+        Route::post('/',[CompanyController::class,'store']);
+        Route::delete('/{company}',[CompanyController::class,'destroy']);
+    });
 
-Route::prefix('/locations')->group(function (){
-    Route::get('/',[LocationController::class,'index']);
-    Route::get('/{location}',[LocationController::class,'show']);
-    Route::put('/{location}',[LocationController::class,'update']);
-    Route::post('/',[LocationController::class,'store']);
-    Route::delete('/{location}',[LocationController::class,'destroy']);
-});
+    Route::prefix('/countries')->group(function (){
+        Route::get('/',[CountryController::class,'index']);
+        Route::get('/{country}',[CountryController::class,'show']);
+        Route::put('/{country}',[CountryController::class,'update']);
+        Route::post('/',[CountryController::class,'store']);
+        Route::delete('/{country}',[CountryController::class,'destroy']);
+    });
 
-Route::get('/flights',[FlightsController::class,'index']);
+    Route::prefix('/locations')->group(function (){
+        Route::get('/',[LocationController::class,'index']);
+        Route::get('/{location}',[LocationController::class,'show']);
+        Route::put('/{location}',[LocationController::class,'update']);
+        Route::post('/',[LocationController::class,'store']);
+        Route::delete('/{location}',[LocationController::class,'destroy']);
+    });
+
+    Route::get('/flights',[FlightsController::class,'index']);
+});
