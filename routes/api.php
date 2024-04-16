@@ -7,7 +7,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FlightsController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\PassengerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,6 +46,10 @@ Route::group(['middleware' => 'jwt.auth'], function (){
         Route::post('/',[LocationController::class,'store']);
         Route::delete('/{location}',[LocationController::class,'destroy']);
     });
+
+    Route::get('/passenger', [PassengerController::class, 'index']);
+    Route::get('/locations', [LocationController::class, 'index']);
+    Route::get('/countries', [CountryController::class, 'index']);
 
     Route::get('/flights',[FlightsController::class,'index']);
 });
